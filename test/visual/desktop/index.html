@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Light theme visual tests</title>
+	<link rel="stylesheet" href="./../../../dist/themes/default/style.min.css">
+	<!--<link rel="stylesheet" href="./../../../dist/themes/default-dark/style.min.css">-->
+	<style>.tree { border:1px solid black; padding:10px; width:300px; margin:20px; float:left; min-height:200px; }</style>
+</head>
+<style type="text/css">
+	.jstree-default .jstree-themeicon {
+    background-position: -102px -68px;
+}
+</style>
+<body style="background:white;">
+	<div class="tree" id="empty"></div>
+	<div class="tree" id="core"><ul><li>asdf</li></ul></div>
+	
+	<div class="tree" id="tree">
+		<ul>
+			<li>Node 01
+				<ul>
+					<li>Nodedemo</li>
+					<li>Node</li>
+				</ul>
+			</li>
+			<li>Node 02</li>
+			<li data-jstree='{"opened" : true}'>Node 03
+				<ul>
+					<li>Node</li>
+					<li>Node</li>
+				</ul>
+			</li>
+			<li>Node 04</li>
+			<li>Node 05</li>
+		</ul>
+	</div>
+	<div class="tree" id="full"><ul><li data-jstree='{ "selected" : true, "type" : "file" }'>full</li><li>asdf</li></ul></div>
+	<div class="tree " id="dark"><ul><li data-jstree='{ "selected" : true, "type" : "file"}'>full</li><li>asdf</li></ul></div>
+	<div class=" tree e"></div>
+	<script src="jquery.min.js"></script>
+	<script src="./../../../dist/jstree.min.js"></script>
+	<script>
+	$('#empty').jstree();
+	$('#tree, #core').jstree();
+	 $('#tree').on("changed.jstree", function (e, data) {
+	 	console.log(e);
+	 	console.log(data.node.text);
+      	console.log(data.selected[0]);
+      	var da=data.selected[0];
+//    	if(data.selected[0]=="j3_1"){
+      		$(".e").html(da);
+//    	}else{
+//    		alert(3);
+//    	}
+    });
+	$('#full').jstree({ plugins : ["checkbox","sort","types","wholerow"], "types" : { "file" : { "icon" : "jstree-file" } } });
+	$('#dark').jstree({ plugins : ["checkbox","sort","types","wholerow"], "core" : { "themes" : { "name" : "default-dark" } }, "types" : { "file" : { "icon" : "jstree-file" } } });
+	</script>
+</body>
+</html>
