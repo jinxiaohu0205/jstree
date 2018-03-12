@@ -20,7 +20,7 @@
 		<ul>
 			<li>Node 01
 				<ul>
-					<li>Nodedemo</li>
+					<li>child_node_1</li>
 					<li>Node</li>
 				</ul>
 			</li>
@@ -35,27 +35,75 @@
 			<li>Node 05</li>
 		</ul>
 	</div>
+	
+	<div class="tree" id="jstree">
+    <!-- in this example the tree is populated from inline HTML -->
+    <ul>
+      <li>Root node 1
+        <ul>
+          <li id="child_node_1">Child node 1</li>
+          <li>Child node 2</li>
+        </ul>
+      </li>
+      <li>Root node 2</li>
+    </ul>
+  </div>
+  
 	<div class="tree" id="full"><ul><li data-jstree='{ "selected" : true, "type" : "file" }'>full</li><li>asdf</li></ul></div>
 	<div class="tree " id="dark"><ul><li data-jstree='{ "selected" : true, "type" : "file"}'>full</li><li>asdf</li></ul></div>
+	
 	<div class=" tree e"></div>
+	<button>demo button</button>
+	<input type="text" id="txtIndustryArea"/>
 	<script src="jquery.min.js"></script>
 	<script src="./../../../dist/jstree.min.js"></script>
 	<script>
 	$('#empty').jstree();
 	$('#tree, #core').jstree();
+	
+//	实现鼠标点击事件
 	 $('#tree').on("changed.jstree", function (e, data) {
 	 	console.log(e);
 	 	console.log(data.node.text);
       	console.log(data.selected[0]);
       	var da=data.selected[0];
-//    	if(data.selected[0]=="j3_1"){
       		$(".e").html(da);
-//    	}else{
-//    		alert(3);
-//    	}
+
     });
+
 	$('#full').jstree({ plugins : ["checkbox","sort","types","wholerow"], "types" : { "file" : { "icon" : "jstree-file" } } });
 	$('#dark').jstree({ plugins : ["checkbox","sort","types","wholerow"], "core" : { "themes" : { "name" : "default-dark" } }, "types" : { "file" : { "icon" : "jstree-file" } } });
+	
+	
+   	 $('#jstree').jstree({
+   	 	 plugins: ["checkbox", "sort", "types", "wholerow", "search", "unique"]  
+   	 });
+     $('button').on('click', function () {
+      $('#jstree').jstree(true).select_node('child_node_1');
+      $('#jstree').jstree('select_node', 'child_node_1');
+      $.jstree.reference('#jstree').select_node('child_node_1');
+    });
+
+
+//  实现搜索的功能
+	$('#jstree').jstree({
+   	 	 plugins: ["checkbox", "sort", "types", "wholerow", "search", "unique"]  
+   	 });
+	var to = false;   
+	$("#txtIndustryArea").keyup(function () {   
+	    if (to) { clearTimeout(to); }   
+	    to = setTimeout(function () {   
+	        var v = $("#txtIndustryArea").val();   
+	        var temp = $("#jstree").is(":hidden");   
+	        if (temp == true) {   
+	            $("#jstree").show();   
+	        }   
+	        $("#jstree").jstree(true).search(v);   
+	    }, 250);   
+	});   
+    
+    
+    
 	</script>
 </body>
 </html>
